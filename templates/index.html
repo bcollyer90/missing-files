@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Uploader</title>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.7.1/min/dropzone.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.7.1/min/dropzone.min.css">
+
+
+    <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre-exp.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre-icons.min.css">
+    <script type="text/javascript">
+        Dropzone.options.myDropzone = {
+
+
+            // Prevents Dropzone from uploading dropped files immediately
+            autoProcessQueue: false,
+            uploadMultiple: true,
+            maxFilesize: 6000,
+            timeout: 0,
+            parallelUploads: 30,
+            maxFiles: 80,
+            init: function () {
+                const myDropzone = this; // closure
+
+                this.element.querySelector("button[type=submit]").addEventListener("click", function (e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    myDropzone.processQueue();
+                });
+
+            }
+        };
+    </script>
+</head>
+
+<body>
+
+<header class="navbar mb-2">
+    <section class="navbar-section">
+        <a href="meilisearch-url.com" target="_blank" class="btn btn-link">Missing Files Index</a>
+    </section>
+    <section class="navbar-center">
+        Uploader
+    </section>
+    <section class="navbar-section">
+        <a href="/files/move" class="btn btn-link">Move Files</a>
+        <a href="/index/update" class="btn btn-link">Update Index</a>
+    </section>
+</header>
+<div class="divider text-center" data-content="Good luck"></div>
+<div class="mb-2"></div>
+<div class="container grid-lg mt-2">
+    <div class="columns">
+        <div class="column col-lg-9">
+            <form action="/upload" class="dropzone" id="my-dropzone" method="POST">
+                <div class="form-group">
+                    <button type="submit">Submit</button>
+                </div>
+            </form>
+        </div>
+        <div class="column col-lg-3">
+            <div class="panel">
+                <div class="panel-header">
+                    <div class="panel-title">Files to Move</div>
+                </div>
+                <div class="panel-body">
+                    {% for f in files_waiting %}
+                        {{ f }}<br>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
